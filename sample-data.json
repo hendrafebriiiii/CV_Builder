@@ -1,0 +1,192 @@
+{
+  "personal": {
+    "fullName": "Hendra Febrianto",
+    "location": "Malang, Indonesia",
+    "phone": "+6287821074461",
+    "email": "hendraf13@outlook.com",
+    "linkedinUsername": "Hendra Febrianto",
+    "linkedinUrl": "https://linkedin.com/in/hendra-febrianto",
+    "summary": "Lulusan Informatika dengan minat kuat di bidang Cyber Security, keamanan jaringan, serta IT Infrastructure dan Cloud Infrastructure. Memiliki pemahaman dasar dalam monitoring sistem, deteksi dan respons insiden, serta pengelolaan infrastruktur TI. Terbiasa memberikan dukungan teknis dan melakukan troubleshooting perangkat keras maupun perangkat lunak secara efektif. Bermotivasi tinggi untuk terus belajar dan berkembang, serta siap berkontribusi secara profesional dalam peran SOC Analyst maupun IT Support."
+  },
+  "education": [
+    {
+      "id": 1,
+      "university": "University of Muhammadiyah Malang",
+      "degree": "Bachelor of",
+      "field": "Informatics",
+      "startDate": "Sep 2017",
+      "endDate": "Sep 2022",
+      "gpa": "3.40"
+    }
+  ],
+  "experience": [
+    {
+      "id": 1,
+      "company": "PT Visionet Data international",
+      "position": "IT Support Help Desk & NOC",
+      "startDate": "Jun 2025",
+      "endDate": "April 2026",
+      "description": "• Memberikan dukungan teknis tingkat pertama untuk perangkat keras, perangkat lunak, dan jaringan.\n• Menangani tiket insiden dan permintaan layanan melalui email, telepon, atau sistem tiket.\n• Berkoordinasi dengan tim IT lainnya untuk eskalasi isu teknis yang membutuhkan penanganan lanjutan.\n• Memantau kinerja jaringan, server, aplikasi, dan perangkat infrastruktur menggunakan Zabbix, SolarWinds, dan AWS.\n• Berkoordinasi dengan provider, vendor, dan tim internal saat terjadi gangguan backbone atau layanan.\n• Menangani tiket insiden dan permintaan layanan melalui email, telepon, atau sistem tiket ITSM, memastikan penanganan sesuai SLA."
+    },
+    {
+      "id": 2,
+      "company": "PT Visionet Data international",
+      "position": "System Administrator",
+      "startDate": "Feb 2025",
+      "endDate": "May 2025",
+      "description": "• Melakukan pemeriksaan dan penerapan patch keamanan sistem secara rutin untuk memastikan perlindungan terhadap ancaman dan kerentanannya.\n• Mengawasi implementasi pembaruan perangkat lunak dan patching melalui sistem otomasi dan pemantauan patch.\n• Menyusun laporan patching dan audit keamanan untuk memastikan kepatuhan terhadap standar dan kebijakan perusahaan."
+    },
+    {
+      "id": 3,
+      "company": "Universitas Muhammadiyah Malang",
+      "position": "Part-Time, Biro Akademik & AIK",
+      "startDate": "Jul 2021",
+      "endDate": "Dec 2021",
+      "description": "• Melayani lebih dari 100 mahasiswa dalam penyelesaian permasalahan akademik.\n• Mengelola proses administrasi pendaftaran wisuda serta membantu dalam pengarsipan dokumen mahasiswa.\n• Mendukung operasional penerimaan mahasiswa baru dengan memberikan informasi, memproses pendaftaran, dan memastikan kelengkapan dokumen administratif."
+    },
+    {
+      "id": 4,
+      "company": "Badan Pengawas Pemilu Kota Batu",
+      "position": "Magang Frontend WordPress Developer",
+      "startDate": "Jan 2020",
+      "endDate": "Feb 2020",
+      "description": "• Mengembangkan dan mengintegrasikan tema kustom pada platform WordPress.\n• Melatih staf dalam pengelolaan sistem manajemen konten situs web.\n• Meningkatkan fungsionalitas situs untuk mendukung aksesibilitas dan responsivitas."
+    }
+  ],
+  "training": [
+    {
+      "id": 1,
+      "title": "Bootcamp Cybersecurity – VisioNet",
+      "institution": "VisioNet",
+      "startDate": "Sep 2024",
+      "endDate": "Nov 2024",
+      "description": "• Mampu mengidentifikasi celah keamanan menggunakan tools seperti Metasploit, Nmap, dan Burp Suite.\n• Melakukan simulasi serangan untuk menguji ketahanan sistem.\n• Melakukan analisis log untuk mengidentifikasi dan menyelidiki insiden keamanan."
+    },
+    {
+      "id": 2,
+      "title": "Pelatihan Aplikasi Teknologi Informasi",
+      "institution": "Universitas Muhammadiyah Malang",
+      "startDate": "Sep 2017",
+      "endDate": "Sep 2017",
+      "description": "• Belajar mengembangkan dan mengelola website menggunakan WordPress.\n• Membuat konten blog yang efektif dan menarik.\n• Mengenal platform Blogspot sebagai media blogging."
+    },
+    {
+      "id": 3,
+      "title": "Program Pembentukan Kepribadian dan Kepemimpinan",
+      "institution": "UPT.P2KK",
+      "startDate": "Mar 2018",
+      "endDate": "Mar 2018",
+      "description": "• Memahami nilai-nilai kemuhammadiyahan dalam kehidupan dan kepemimpinan.\n• Mempelajari dasar-dasar hukum Islam.\n• Mengenal konsep hukum keluarga dalam perspektif Islam."
+    }
+  ],
+  "certificates": [
+    {
+      "id": 1,
+      "title": "Cyber Security 101",
+      "issuer": "Tryhackme",
+      "issueDate": "Nov 2025",
+      "expiryDate": "",
+      "credentialUrl": ""
+    },
+    {
+      "id": 2,
+      "title": "BigFix Foundation BESFND101",
+      "issuer": "HCL BigFix",
+      "issueDate": "Mar 2025",
+      "expiryDate": "",
+      "credentialUrl": ""
+    },
+    {
+      "id": 3,
+      "title": "Virtual Lab OSINT",
+      "issuer": "Cybrary",
+      "issueDate": "Jul 2024",
+      "expiryDate": "",
+      "credentialUrl": ""
+    },
+    {
+      "id": 4,
+      "title": "Introduction to OSINT",
+      "issuer": "Security Blue Team",
+      "issueDate": "Mei 2024",
+      "expiryDate": "",
+      "credentialUrl": ""
+    },
+    {
+      "id": 5,
+      "title": "Networking Basics",
+      "issuer": "Cisco Networking Academy",
+      "issueDate": "Mei 2024",
+      "expiryDate": "",
+      "credentialUrl": ""
+    },
+    {
+      "id": 6,
+      "title": "Introduction to Cybersecurity",
+      "issuer": "Cisco Networking Academy",
+      "issueDate": "Mar 2024",
+      "expiryDate": "",
+      "credentialUrl": ""
+    },
+    {
+      "id": 7,
+      "title": "Database Administrator",
+      "issuer": "Badan Nasional Sertifikasi Profesi (BNSP) – LSP University of Muhammadiyah Malang",
+      "issueDate": "Sep 2022",
+      "expiryDate": "Sep 2025",
+      "credentialUrl": ""
+    },
+    {
+      "id": 8,
+      "title": "CCNA Routing and Switching : Introduction to Network",
+      "issuer": "Cisco Networking Academy",
+      "issueDate": "Aug 2020",
+      "expiryDate": "",
+      "credentialUrl": ""
+    },
+    {
+      "id": 9,
+      "title": "CCNA Routing and Switching : Routing and Switching Essentials",
+      "issuer": "Cisco Networking Academy",
+      "issueDate": "Jan 2019",
+      "expiryDate": "",
+      "credentialUrl": ""
+    }
+  ],
+  "projects": [
+    {
+      "id": 1,
+      "title": "Pengembangan Website Bawaslu Kota Batu Dengan Elementor (WordPress)",
+      "description": "• Mengembangkan tema kustom untuk situs Bawaslu Kota Batu.\n• Melatih staf dalam mengelola konten menggunakan WordPress.\n• Melakukan penyempurnaan untuk meningkatkan fungsional dan responsive Website.",
+      "technologies": "WordPress, Elementor"
+    },
+    {
+      "id": 2,
+      "title": "Mengembangkan Situs Web Untuk Mengirimkan Dokumen Menggunakan API Telegram",
+      "description": "• Membangun antarmuka menggunakan PHP, HTML, dan CSS.\n• Mengembangkan diagram use case untuk pemetaan alur sistem.\n• Mengotomatiskan pengiriman dokumen, meningkatkan efisiensi operasional hingga 40%.",
+      "technologies": "PHP, HTML, CSS, Telegram API"
+    }
+  ],
+  "volunteer": [
+    {
+      "id": 1,
+      "organization": "DPPM - Universitas Muhammadiyah Malang",
+      "position": "Relawan Pembangunan Infrastruktur Sanitasi dan Lingkungan",
+      "startDate": "May 2019",
+      "endDate": "Jun 2019",
+      "description": "• Membuat alat cuci tangan injak sederhana untuk masyarakat.\n• Menanam tanaman herbal untuk meningkatkan keberlanjutan lingkungan."
+    }
+  ],
+  "languages": [
+    {
+      "id": 1,
+      "language": "Bahasa Indonesia",
+      "proficiency": "Native Proficiency"
+    },
+    {
+      "id": 2,
+      "language": "English",
+      "proficiency": "Basic Proficiency"
+    }
+  ]
+}

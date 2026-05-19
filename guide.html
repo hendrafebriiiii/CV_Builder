@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Builder - Panduan Cepat</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            padding: 40px;
+        }
+        h1 {
+            color: #2563eb;
+            margin-bottom: 10px;
+        }
+        h2 {
+            color: #1e40af;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #e0e7ff;
+            padding-bottom: 10px;
+        }
+        .section {
+            margin-bottom: 25px;
+        }
+        .step {
+            background: #f8fafc;
+            border-left: 4px solid #2563eb;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+        .step strong {
+            color: #1e40af;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background-color: #2563eb;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #1e40af;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+        }
+        .btn-secondary {
+            background-color: #e2e8f0;
+            color: #1e293b;
+        }
+        .btn-secondary:hover {
+            background-color: #cbd5e1;
+        }
+        code {
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #e11d48;
+        }
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        .feature-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #e2e8f0;
+            padding-left: 30px;
+            position: relative;
+        }
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+        .warning {
+            background: #fef2f2;
+            border-left: 4px solid #ef4444;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+        .info {
+            background: #eff6ff;
+            border-left: 4px solid #0284c7;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+        .subtitle {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📋 CV Builder</h1>
+        <p class="subtitle">Buat CV profesional Anda dengan mudah dan ekspor ke PDF</p>
+
+        <div class="button-group">
+            <a href="index.html" class="btn btn-primary">👉 Buka Aplikasi</a>
+            <button class="btn btn-secondary" onclick="showSampleData()">📋 Lihat Data Contoh</button>
+        </div>
+
+        <h2>🚀 Mulai Cepat</h2>
+        <div class="section">
+            <div class="step">
+                <strong>Langkah 1: Buka Aplikasi</strong>
+                Klik tombol "Buka Aplikasi" di atas untuk memulai membuat CV Anda
+            </div>
+            <div class="step">
+                <strong>Langkah 2: Isi Data Pribadi</strong>
+                Mulai dari tab "Data Pribadi" di sisi kiri. Isi nama, email, dan informasi kontak Anda
+            </div>
+            <div class="step">
+                <strong>Langkah 3: Tambahkan Pengalaman</strong>
+                Navigasi ke setiap tab (Pendidikan, Pengalaman Kerja, dll) dan tambahkan informasi Anda
+            </div>
+            <div class="step">
+                <strong>Langkah 4: Ekspor PDF</strong>
+                Klik tombol "Export PDF" untuk mengunduh CV Anda dalam format PDF profesional
+            </div>
+        </div>
+
+        <h2>✨ Fitur Utama</h2>
+        <div class="section">
+            <ul class="feature-list">
+                <li>Form interaktif dengan validasi otomatis</li>
+                <li>Preview CV real-time saat mengisi data</li>
+                <li>Penyimpanan data otomatis di browser Anda</li>
+                <li>Export ke PDF dengan layout profesional</li>
+                <li>Import/Export data dalam format JSON untuk backup</li>
+                <li>Responsif untuk berbagai ukuran layar</li>
+                <li>Tidak memerlukan koneksi internet setelah dimuat</li>
+            </ul>
+        </div>
+
+        <h2>📊 Struktur Bagian CV</h2>
+        <div class="section">
+            <div class="step">
+                <strong>Data Pribadi</strong>
+                Nama, lokasi, telepon, email, LinkedIn, dan ringkasan profesional
+            </div>
+            <div class="step">
+                <strong>Pendidikan</strong>
+                Universitas, gelar, program studi, tanggal, dan IPK
+            </div>
+            <div class="step">
+                <strong>Pengalaman Kerja</strong>
+                Perusahaan, posisi, tanggal, dan deskripsi tugas
+            </div>
+            <div class="step">
+                <strong>Pelatihan</strong>
+                Judul, institusi, tanggal, dan deskripsi pelatihan
+            </div>
+            <div class="step">
+                <strong>Sertifikat</strong>
+                Judul, penerbit, tanggal, dan kredensial
+            </div>
+            <div class="step">
+                <strong>Proyek Teknis</strong>
+                Judul, teknologi, dan deskripsi proyek
+            </div>
+            <div class="step">
+                <strong>Volunteer</strong>
+                Organisasi, posisi, tanggal, dan deskripsi
+            </div>
+            <div class="step">
+                <strong>Bahasa</strong>
+                Bahasa dan tingkat kemampuan
+            </div>
+        </div>
+
+        <h2>💡 Tips Penggunaan</h2>
+        <div class="section">
+            <div class="info">
+                <strong>💾 Penyimpanan Data</strong>
+                Data Anda disimpan secara otomatis di browser. Gunakan fitur "Export Data" untuk backup file JSON yang aman.
+            </div>
+            <div class="info">
+                <strong>✏️ Format Deskripsi</strong>
+                Untuk pengalaman, pelatihan, proyek, dan volunteer, gunakan format dengan bullet point:
+                <code>• Tugas pertama</code><br>
+                <code>• Tugas kedua</code><br>
+                Gunakan tombol Enter untuk membuat baris baru
+            </div>
+            <div class="warning">
+                <strong>⚠️ Penting!</strong>
+                Jika Anda menghapus cache/data browser, data CV Anda akan hilang. Selalu lakukan export data secara berkala untuk backup.
+            </div>
+            <div class="info">
+                <strong>🔄 Import Data Sample</strong>
+                Sudah ada file <code>sample-data.json</code> dengan contoh data. Anda bisa mengimpor file ini untuk melihat bagaimana aplikasi bekerja.
+            </div>
+        </div>
+
+        <h2>📁 Menggunakan Data Sample</h2>
+        <div class="section">
+            <div class="step">
+                <strong>Cara Import Data Sample:</strong>
+                <ol>
+                    <li>Buka aplikasi CV Builder</li>
+                    <li>Klik tombol "Import Data" di sidebar kiri</li>
+                    <li>Pilih file <code>sample-data.json</code> dari folder aplikasi</li>
+                    <li>Data akan otomatis terisi dengan contoh CV</li>
+                </ol>
+            </div>
+        </div>
+
+        <h2>🐛 Troubleshooting</h2>
+        <div class="section">
+            <div class="step">
+                <strong>Data hilang setelah refresh?</strong>
+                Pastikan browser tidak dalam mode Private/Incognito. Gunakan mode normal untuk penyimpanan data.
+            </div>
+            <div class="step">
+                <strong>PDF tidak tereksport?</strong>
+                Pastikan koneksi internet stabil. Library PDF perlu diunduh dari CDN. Nonaktifkan popup blocker jika ada.
+            </div>
+            <div class="step">
+                <strong>Tidak bisa import data?</strong>
+                Pastikan file JSON valid. Gunakan data dari "Export Data" atau file <code>sample-data.json</code>.
+            </div>
+        </div>
+
+        <h2>🎯 Kompatibilitas</h2>
+        <div class="section">
+            <p>Aplikasi ini bekerja optimal di browser modern:</p>
+            <ul class="feature-list">
+                <li>Google Chrome (versi terbaru)</li>
+                <li>Mozilla Firefox (versi terbaru)</li>
+                <li>Microsoft Edge</li>
+                <li>Safari</li>
+            </ul>
+        </div>
+
+        <h2>📞 Dukungan</h2>
+        <div class="section">
+            <p>Aplikasi ini adalah web-based tool yang bekerja sepenuhnya di browser Anda. Tidak ada server atau cloud storage yang terlibat. Data Anda tetap aman di perangkat Anda sendiri.</p>
+        </div>
+
+        <div class="button-group">
+            <a href="index.html" class="btn btn-primary">👉 Mulai Membuat CV Sekarang</a>
+        </div>
+    </div>
+
+    <script>
+        function showSampleData() {
+            const sampleData = {
+                personal: {
+                    fullName: "Hendra Febrianto",
+                    location: "Malang, Indonesia",
+                    phone: "+6287821074461",
+                    email: "hendraf13@outlook.com",
+                    linkedin: "Hendra Febrianto",
+                    summary: "Lulusan Informatika dengan minat kuat di bidang Cyber Security..."
+                },
+                education: 1,
+                experience: 4,
+                training: 3,
+                certificates: 9,
+                projects: 2,
+                volunteer: 1,
+                languages: 2
+            };
+            
+            alert(`Contoh Data CV yang tersedia:\n\n` +
+                  `• Nama: ${sampleData.personal.fullName}\n` +
+                  `• Email: ${sampleData.personal.email}\n` +
+                  `• Pendidikan: ${sampleData.education} entry\n` +
+                  `• Pengalaman: ${sampleData.experience} entry\n` +
+                  `• Pelatihan: ${sampleData.training} entry\n` +
+                  `• Sertifikat: ${sampleData.certificates} entry\n` +
+                  `• Proyek: ${sampleData.projects} entry\n` +
+                  `• Volunteer: ${sampleData.volunteer} entry\n` +
+                  `• Bahasa: ${sampleData.languages} entry\n\n` +
+                  `Gunakan tombol "Import Data" untuk mengimpor sample-data.json`);
+        }
+    </script>
+</body>
+</html>

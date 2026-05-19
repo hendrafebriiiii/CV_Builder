@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Builder - Buat CV Profesional Anda</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="logo">
+                <h1>CV Builder</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#" onclick="switchTab('personal')" class="nav-item active" data-tab="personal">Data Pribadi</a></li>
+                <li><a href="#" onclick="switchTab('education')" class="nav-item" data-tab="education">Pendidikan</a></li>
+                <li><a href="#" onclick="switchTab('experience')" class="nav-item" data-tab="experience">Pengalaman Kerja</a></li>
+                <li><a href="#" onclick="switchTab('training')" class="nav-item" data-tab="training">Pelatihan</a></li>
+                <li><a href="#" onclick="switchTab('certificate')" class="nav-item" data-tab="certificate">Sertifikat</a></li>
+                <li><a href="#" onclick="switchTab('projects')" class="nav-item" data-tab="projects">Proyek Teknis</a></li>
+                <li><a href="#" onclick="switchTab('volunteer')" class="nav-item" data-tab="volunteer">Volunteer</a></li>
+                <li><a href="#" onclick="switchTab('languages')" class="nav-item" data-tab="languages">Bahasa</a></li>
+            </ul>
+            <div class="action-buttons">
+                <button onclick="exportDataJSON()" class="btn btn-secondary" style="font-size: 0.85rem;">Export Data</button>
+                <button onclick="importDataJSON()" class="btn btn-secondary" style="font-size: 0.85rem;">Import Data</button>
+                <button onclick="resetForm()" class="btn btn-secondary">Reset</button>
+                <button onclick="exportToPDF()" class="btn btn-primary">Export PDF</button>
+            </div>
+            <input type="file" id="fileInput" accept=".json" style="display: none;" onchange="handleFileImport(event)">
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Personal Data Tab -->
+            <div id="personal" class="tab-content active">
+                <h2>Data Pribadi</h2>
+                <form class="form-section">
+                    <div class="form-group">
+                        <label for="fullName">Nama Lengkap *</label>
+                        <input type="text" id="fullName" placeholder="Contoh: Hendra Febrianto" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="location">Lokasi</label>
+                            <input type="text" id="location" placeholder="Contoh: Malang, Indonesia">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Nomor Telepon</label>
+                            <input type="tel" id="phone" placeholder="Contoh: +6287821074461">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" placeholder="Contoh: hendraf13@outlook.com" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="linkedinUsername">LinkedIn Username</label>
+                            <input type="text" id="linkedinUsername" placeholder="Contoh: Hendra Febrianto">
+                        </div>
+                        <div class="form-group">
+                            <label for="linkedinUrl">LinkedIn URL</label>
+                            <input type="url" id="linkedinUrl" placeholder="Contoh: https://linkedin.com/in/hendra-febrianto">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="summary">Ringkasan Profesional</label>
+                        <textarea id="summary" rows="4" placeholder="Tuliskan ringkasan singkat tentang diri Anda dan tujuan karir..."></textarea>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Education Tab -->
+            <div id="education" class="tab-content">
+                <h2>Pendidikan</h2>
+                <div id="educationList" class="list-container"></div>
+                <button onclick="addEducation()" class="btn btn-add">+ Tambah Pendidikan</button>
+            </div>
+
+            <!-- Experience Tab -->
+            <div id="experience" class="tab-content">
+                <h2>Pengalaman Kerja</h2>
+                <div id="experienceList" class="list-container"></div>
+                <button onclick="addExperience()" class="btn btn-add">+ Tambah Pengalaman</button>
+            </div>
+
+            <!-- Training Tab -->
+            <div id="training" class="tab-content">
+                <h2>Pelatihan</h2>
+                <div id="trainingList" class="list-container"></div>
+                <button onclick="addTraining()" class="btn btn-add">+ Tambah Pelatihan</button>
+            </div>
+
+            <!-- Certificate Tab -->
+            <div id="certificate" class="tab-content">
+                <h2>Sertifikat</h2>
+                <div id="certificateList" class="list-container"></div>
+                <button onclick="addCertificate()" class="btn btn-add">+ Tambah Sertifikat</button>
+            </div>
+
+            <!-- Projects Tab -->
+            <div id="projects" class="tab-content">
+                <h2>Proyek Teknis</h2>
+                <div id="projectsList" class="list-container"></div>
+                <button onclick="addProject()" class="btn btn-add">+ Tambah Proyek</button>
+            </div>
+
+            <!-- Volunteer Tab -->
+            <div id="volunteer" class="tab-content">
+                <h2>Volunteer</h2>
+                <div id="volunteerList" class="list-container"></div>
+                <button onclick="addVolunteer()" class="btn btn-add">+ Tambah Volunteer</button>
+            </div>
+
+            <!-- Languages Tab -->
+            <div id="languages" class="tab-content">
+                <h2>Bahasa</h2>
+                <div id="languagesList" class="list-container"></div>
+                <button onclick="addLanguage()" class="btn btn-add">+ Tambah Bahasa</button>
+            </div>
+        </main>
+
+        <!-- Preview Panel -->
+        <div id="resizeHandle" class="resize-handle"></div>
+        <aside id="previewPanel" class="preview-panel">
+            <div class="preview-header">
+                <h3>Preview CV</h3>
+                <div class="preview-actions">
+                    <button onclick="resetPreviewSize()" class="btn-toggle" title="Reset ukuran">↺</button>
+                    <button id="togglePreviewBtn" onclick="togglePreview()" class="btn-toggle" title="Sembunyikan/Tampilkan">×</button>
+                </div>
+            </div>
+            <div id="previewContent" class="preview-content">
+                <div class="cv-preview" id="cvPreview">
+                    <!-- CV preview will be rendered here -->
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Modal for detailed forms -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="js/pdf-export.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
