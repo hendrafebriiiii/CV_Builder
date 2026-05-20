@@ -188,5 +188,23 @@
       "language": "English",
       "proficiency": "Basic Proficiency"
     }
+  ],
+  "skills": [
+    {
+      "id": 1,
+      "skillName": "JavaScript"
+    },
+    {
+      "id": 2,
+      "skillName": "System Administration"
+    },
+    {
+      "id": 3,
+      "skillName": "Network Monitoring"
+    },
+    {
+      "id": 4,
+      "skillName": "Cloud Infrastructure (AWS)"
+    }
   ]
 }

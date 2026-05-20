@@ -14,6 +14,7 @@ let cvData = {
     training: [],
     certificates: [],
     projects: [],
+    skills: [],
     volunteer: [],
     languages: []
 };
@@ -39,6 +40,7 @@ function loadData() {
         renderTraining();
         renderCertificates();
         renderProjects();
+        renderSkills();
         renderVolunteer();
         renderLanguages();
     }
@@ -389,6 +391,60 @@ function saveProject(id, data) {
     renderProjects();
 }
 
+// SKILLS FUNCTIONS
+function addSkill() {
+    const newSkill = {
+        id: Date.now(),
+        skillName: '',
+        proficiency: ''
+    };
+    cvData.skills.push(newSkill);
+    openModal('skills', newSkill);
+}
+
+function renderSkills() {
+    const list = document.getElementById('skillsList');
+    list.innerHTML = '';
+
+    if (cvData.skills.length === 0) {
+        list.innerHTML = '<p class="empty-state">Belum ada data keahlian. Klik tombol di bawah untuk menambah.</p>';
+        return;
+    }
+
+    cvData.skills.forEach(skill => {
+        const item = createListItem(
+            skill.skillName || 'Keahlian Belum Diisi',
+            skill.proficiency || '',
+            '',
+            skill.id,
+            'skills'
+        );
+        list.appendChild(item);
+    });
+}
+
+function editSkill(id) {
+    const skill = cvData.skills.find(s => s.id === id);
+    if (skill) {
+        openModal('skills', skill);
+    }
+}
+
+function deleteSkill(id) {
+    cvData.skills = cvData.skills.filter(s => s.id !== id);
+    saveData();
+    renderSkills();
+}
+
+function saveSkill(id, data) {
+    const index = cvData.skills.findIndex(s => s.id === id);
+    if (index !== -1) {
+        cvData.skills[index] = { ...cvData.skills[index], ...data };
+    }
+    saveData();
+    renderSkills();
+}
+
 // VOLUNTEER FUNCTIONS
 function addVolunteer() {
     const newVolunteer = {
@@ -719,6 +775,22 @@ function getFormHTML(type, data) {
             `;
             break;
 
+        case 'skills':
+            html = `
+                <h3>Edit Keahlian</h3>
+                <form class="modal-form-group">
+                    <div class="modal-form-group">
+                        <label>Nama Keahlian</label>
+                        <input type="text" id="modalSkillName" value="${data.skillName || ''}" placeholder="Contoh: JavaScript, Python, Project Management">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn-cancel" onclick="closeModal()">Batal</button>
+                        <button type="button" class="btn-save" onclick="saveSkillModal(${data.id})">Simpan</button>
+                    </div>
+                </form>
+            `;
+            break;
+
         case 'volunteer':
             html = `
                 <h3>Edit Volunteer</h3>
@@ -846,6 +918,15 @@ function saveProjectModal(id) {
         technologies: document.getElementById('modalTechnologies').value
     };
     saveProject(id, data);
+    closeModal();
+}
+
+function saveSkillModal(id) {
+    const data = {
+        id: id,
+        skillName: document.getElementById('modalSkillName').value
+    };
+    saveSkill(id, data);
     closeModal();
 }
 
@@ -1004,6 +1085,16 @@ function updatePreview() {
             }
             html += '</div>';
         });
+    }
+
+    // Skills
+    if (cvData.skills.length > 0) {
+        html += '<h2>Keahlian</h2>';
+        html += '<ul>';
+        cvData.skills.forEach(skill => {
+            html += `<li>${skill.skillName || ''}</li>`;
+        });
+        html += '</ul>';
     }
 
     // Volunteer

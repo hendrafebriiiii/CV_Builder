@@ -195,6 +195,18 @@ function generatePDF() {
         cvHTML += '</div>';
     }
 
+    // Skills
+    if (cvData.skills.length > 0) {
+        cvHTML += '<div style="margin-bottom: 12px;">';
+        cvHTML += '<h2 style="font-size: 13px; font-weight: bold; margin: 0 0 8px 0; border-bottom: 1px solid #000; padding-bottom: 3px;">Keahlian</h2>';
+        cvHTML += '<ul style="margin: 3px 0; padding-left: 20px; font-size: 11px;">';
+        cvData.skills.forEach(skill => {
+            cvHTML += `<li style="margin-bottom: 2px;">${escapeHtml(skill.skillName || '')}</li>`;
+        });
+        cvHTML += '</ul>';
+        cvHTML += '</div>';
+    }
+
     // Volunteer
     if (cvData.volunteer.length > 0) {
         cvHTML += '<div style="margin-bottom: 12px;">';

@@ -20,6 +20,7 @@
                 <li><a href="#" onclick="switchTab('training')" class="nav-item" data-tab="training">Pelatihan</a></li>
                 <li><a href="#" onclick="switchTab('certificate')" class="nav-item" data-tab="certificate">Sertifikat</a></li>
                 <li><a href="#" onclick="switchTab('projects')" class="nav-item" data-tab="projects">Proyek Teknis</a></li>
+                <li><a href="#" onclick="switchTab('skills')" class="nav-item" data-tab="skills">Keahlian</a></li>
                 <li><a href="#" onclick="switchTab('volunteer')" class="nav-item" data-tab="volunteer">Volunteer</a></li>
                 <li><a href="#" onclick="switchTab('languages')" class="nav-item" data-tab="languages">Bahasa</a></li>
             </ul>
@@ -108,6 +109,13 @@
                 <h2>Proyek Teknis</h2>
                 <div id="projectsList" class="list-container"></div>
                 <button onclick="addProject()" class="btn btn-add">+ Tambah Proyek</button>
+            </div>
+
+            <!-- Skills Tab -->
+            <div id="skills" class="tab-content">
+                <h2>Keahlian</h2>
+                <div id="skillsList" class="list-container"></div>
+                <button onclick="addSkill()" class="btn btn-add">+ Tambah Keahlian</button>
             </div>
 
             <!-- Volunteer Tab -->
