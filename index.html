@@ -14,15 +14,15 @@
                 <h1>CV Builder</h1>
             </div>
             <ul class="nav-menu">
-                <li><a href="#" onclick="switchTab('personal')" class="nav-item active" data-tab="personal">Data Pribadi</a></li>
-                <li><a href="#" onclick="switchTab('education')" class="nav-item" data-tab="education">Pendidikan</a></li>
-                <li><a href="#" onclick="switchTab('experience')" class="nav-item" data-tab="experience">Pengalaman Kerja</a></li>
-                <li><a href="#" onclick="switchTab('training')" class="nav-item" data-tab="training">Pelatihan</a></li>
-                <li><a href="#" onclick="switchTab('certificate')" class="nav-item" data-tab="certificate">Sertifikat</a></li>
-                <li><a href="#" onclick="switchTab('projects')" class="nav-item" data-tab="projects">Proyek Teknis</a></li>
-                <li><a href="#" onclick="switchTab('skills')" class="nav-item" data-tab="skills">Keahlian</a></li>
-                <li><a href="#" onclick="switchTab('volunteer')" class="nav-item" data-tab="volunteer">Volunteer</a></li>
-                <li><a href="#" onclick="switchTab('languages')" class="nav-item" data-tab="languages">Bahasa</a></li>
+                <li draggable="true" class="nav-item-wrapper" data-tab="personal"><span class="nav-drag-handle">⋮⋮</span><a href="#" onclick="switchTab('personal')" class="nav-item active" data-tab="personal">Data Pribadi</a></li>
+                <li draggable="true" class="nav-item-wrapper" data-tab="education"><span class="nav-drag-handle">⋮⋮</span><a href="#" onclick="switchTab('education')" class="nav-item" data-tab="education">Pendidikan</a></li>
+                <li draggable="true" class="nav-item-wrapper" data-tab="experience"><span class="nav-drag-handle">⋮⋮</span><a href="#" onclick="switchTab('experience')" class="nav-item" data-tab="experience">Pengalaman Kerja</a></li>
+                <li draggable="true" class="nav-item-wrapper" data-tab="training"><span class="nav-drag-handle">⋮⋮</span><a href="#" onclick="switchTab('training')" class="nav-item" data-tab="training">Pelatihan</a></li>
+                <li draggable="true" class="nav-item-wrapper" data-tab="certificate"><span class="nav-drag-handle">⋮⋮</span><a href="#" onclick="switchTab('certificate')" class="nav-item" data-tab="certificate">Sertifikat</a></li>
+                <li draggable="true" class="nav-item-wrapper" data-tab="projects"><span class="nav-drag-handle">⋮⋮</span><a href="#" onclick="switchTab('projects')" class="nav-item" data-tab="projects">Proyek Teknis</a></li>
+                <li draggable="true" class="nav-item-wrapper" data-tab="skills"><span class="nav-drag-handle">⋮⋮</span><a href="#" onclick="switchTab('skills')" class="nav-item" data-tab="skills">Keahlian</a></li>
+                <li draggable="true" class="nav-item-wrapper" data-tab="volunteer"><span class="nav-drag-handle">⋮⋮</span><a href="#" onclick="switchTab('volunteer')" class="nav-item" data-tab="volunteer">Volunteer</a></li>
+                <li draggable="true" class="nav-item-wrapper" data-tab="languages"><span class="nav-drag-handle">⋮⋮</span><a href="#" onclick="switchTab('languages')" class="nav-item" data-tab="languages">Bahasa</a></li>
             </ul>
             <div class="action-buttons">
                 <button onclick="exportDataJSON()" class="btn btn-secondary" style="font-size: 0.85rem;">Export Data</button>

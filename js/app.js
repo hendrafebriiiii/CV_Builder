@@ -26,6 +26,8 @@ document.addEventListener('DOMContentLoaded', function() {
     loadData();
     attachEventListeners();
     initPreviewResize();
+    initNavDragDrop();
+    loadNavMenuOrder();
     updatePreview();
 });
 
@@ -131,15 +133,35 @@ function renderEducation() {
         return;
     }
 
-    cvData.education.forEach(edu => {
-        const item = createListItem(
-            edu.university || 'Universitas Belum Diisi',
-            `${edu.degree || ''} ${edu.field || ''}`,
-            `${edu.startDate} - ${edu.endDate}`,
-            edu.id,
-            'education'
-        );
-        list.appendChild(item);
+    cvData.education.forEach((edu, index) => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'list-item';
+        itemDiv.draggable = true;
+        itemDiv.dataset.itemId = edu.id;
+        itemDiv.dataset.index = index;
+        itemDiv.dataset.itemType = 'education';
+        itemDiv.dataset.listId = 'educationList';
+
+        itemDiv.innerHTML = `
+            <div class="drag-handle" title="Seret untuk mengubah urutan">⋮⋮</div>
+            <div class="list-item-content" style="flex: 1;">
+                <h4>${edu.university || 'Universitas Belum Diisi'}</h4>
+                <p>${edu.degree || ''} ${edu.field || ''}</p>
+                <p><small>${edu.startDate} - ${edu.endDate}</small></p>
+            </div>
+            <div class="list-item-actions">
+                <button class="btn btn-edit" onclick="editEducation(${edu.id})">Edit</button>
+                <button class="btn btn-remove" onclick="deleteEducation(${edu.id})">Hapus</button>
+            </div>
+        `;
+
+        itemDiv.addEventListener('dragstart', handleGenericDragStart);
+        itemDiv.addEventListener('dragend', handleGenericDragEnd);
+        itemDiv.addEventListener('dragover', handleGenericDragOver);
+        itemDiv.addEventListener('drop', handleGenericDrop);
+        itemDiv.addEventListener('dragleave', handleGenericDragLeave);
+
+        list.appendChild(itemDiv);
     });
 }
 
@@ -188,15 +210,35 @@ function renderExperience() {
         return;
     }
 
-    cvData.experience.forEach(exp => {
-        const item = createListItem(
-            exp.position || 'Posisi Belum Diisi',
-            exp.company || '',
-            `${exp.startDate} - ${exp.endDate}`,
-            exp.id,
-            'experience'
-        );
-        list.appendChild(item);
+    cvData.experience.forEach((exp, index) => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'list-item';
+        itemDiv.draggable = true;
+        itemDiv.dataset.itemId = exp.id;
+        itemDiv.dataset.index = index;
+        itemDiv.dataset.itemType = 'experience';
+        itemDiv.dataset.listId = 'experienceList';
+
+        itemDiv.innerHTML = `
+            <div class="drag-handle" title="Seret untuk mengubah urutan">⋮⋮</div>
+            <div class="list-item-content" style="flex: 1;">
+                <h4>${exp.position || 'Posisi Belum Diisi'}</h4>
+                <p>${exp.company || ''}</p>
+                <p><small>${exp.startDate} - ${exp.endDate}</small></p>
+            </div>
+            <div class="list-item-actions">
+                <button class="btn btn-edit" onclick="editExperience(${exp.id})">Edit</button>
+                <button class="btn btn-remove" onclick="deleteExperience(${exp.id})">Hapus</button>
+            </div>
+        `;
+
+        itemDiv.addEventListener('dragstart', handleGenericDragStart);
+        itemDiv.addEventListener('dragend', handleGenericDragEnd);
+        itemDiv.addEventListener('dragover', handleGenericDragOver);
+        itemDiv.addEventListener('drop', handleGenericDrop);
+        itemDiv.addEventListener('dragleave', handleGenericDragLeave);
+
+        list.appendChild(itemDiv);
     });
 }
 
@@ -245,15 +287,35 @@ function renderTraining() {
         return;
     }
 
-    cvData.training.forEach(train => {
-        const item = createListItem(
-            train.title || 'Pelatihan Belum Diisi',
-            train.institution || '',
-            `${train.startDate} - ${train.endDate}`,
-            train.id,
-            'training'
-        );
-        list.appendChild(item);
+    cvData.training.forEach((train, index) => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'list-item';
+        itemDiv.draggable = true;
+        itemDiv.dataset.itemId = train.id;
+        itemDiv.dataset.index = index;
+        itemDiv.dataset.itemType = 'training';
+        itemDiv.dataset.listId = 'trainingList';
+
+        itemDiv.innerHTML = `
+            <div class="drag-handle" title="Seret untuk mengubah urutan">⋮⋮</div>
+            <div class="list-item-content" style="flex: 1;">
+                <h4>${train.title || 'Pelatihan Belum Diisi'}</h4>
+                <p>${train.institution || ''}</p>
+                <p><small>${train.startDate} - ${train.endDate}</small></p>
+            </div>
+            <div class="list-item-actions">
+                <button class="btn btn-edit" onclick="editTraining(${train.id})">Edit</button>
+                <button class="btn btn-remove" onclick="deleteTraining(${train.id})">Hapus</button>
+            </div>
+        `;
+
+        itemDiv.addEventListener('dragstart', handleGenericDragStart);
+        itemDiv.addEventListener('dragend', handleGenericDragEnd);
+        itemDiv.addEventListener('dragover', handleGenericDragOver);
+        itemDiv.addEventListener('drop', handleGenericDrop);
+        itemDiv.addEventListener('dragleave', handleGenericDragLeave);
+
+        list.appendChild(itemDiv);
     });
 }
 
@@ -302,15 +364,35 @@ function renderCertificates() {
         return;
     }
 
-    cvData.certificates.forEach(cert => {
-        const item = createListItem(
-            cert.title || 'Sertifikat Belum Diisi',
-            cert.issuer || '',
-            cert.issueDate || '',
-            cert.id,
-            'certificate'
-        );
-        list.appendChild(item);
+    cvData.certificates.forEach((cert, index) => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'list-item';
+        itemDiv.draggable = true;
+        itemDiv.dataset.itemId = cert.id;
+        itemDiv.dataset.index = index;
+        itemDiv.dataset.itemType = 'certificates';
+        itemDiv.dataset.listId = 'certificateList';
+
+        itemDiv.innerHTML = `
+            <div class="drag-handle" title="Seret untuk mengubah urutan">⋮⋮</div>
+            <div class="list-item-content" style="flex: 1;">
+                <h4>${cert.title || 'Sertifikat Belum Diisi'}</h4>
+                <p>${cert.issuer || ''}</p>
+                <p><small>${cert.issueDate || ''}</small></p>
+            </div>
+            <div class="list-item-actions">
+                <button class="btn btn-edit" onclick="editCertificate(${cert.id})">Edit</button>
+                <button class="btn btn-remove" onclick="deleteCertificate(${cert.id})">Hapus</button>
+            </div>
+        `;
+
+        itemDiv.addEventListener('dragstart', handleGenericDragStart);
+        itemDiv.addEventListener('dragend', handleGenericDragEnd);
+        itemDiv.addEventListener('dragover', handleGenericDragOver);
+        itemDiv.addEventListener('drop', handleGenericDrop);
+        itemDiv.addEventListener('dragleave', handleGenericDragLeave);
+
+        list.appendChild(itemDiv);
     });
 }
 
@@ -357,15 +439,34 @@ function renderProjects() {
         return;
     }
 
-    cvData.projects.forEach(proj => {
-        const item = createListItem(
-            proj.title || 'Proyek Belum Diisi',
-            proj.technologies || '',
-            '',
-            proj.id,
-            'projects'
-        );
-        list.appendChild(item);
+    cvData.projects.forEach((proj, index) => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'list-item';
+        itemDiv.draggable = true;
+        itemDiv.dataset.itemId = proj.id;
+        itemDiv.dataset.index = index;
+        itemDiv.dataset.itemType = 'projects';
+        itemDiv.dataset.listId = 'projectsList';
+
+        itemDiv.innerHTML = `
+            <div class="drag-handle" title="Seret untuk mengubah urutan">⋮⋮</div>
+            <div class="list-item-content" style="flex: 1;">
+                <h4>${proj.title || 'Proyek Belum Diisi'}</h4>
+                <p>${proj.technologies || ''}</p>
+            </div>
+            <div class="list-item-actions">
+                <button class="btn btn-edit" onclick="editProject(${proj.id})">Edit</button>
+                <button class="btn btn-remove" onclick="deleteProject(${proj.id})">Hapus</button>
+            </div>
+        `;
+
+        itemDiv.addEventListener('dragstart', handleGenericDragStart);
+        itemDiv.addEventListener('dragend', handleGenericDragEnd);
+        itemDiv.addEventListener('dragover', handleGenericDragOver);
+        itemDiv.addEventListener('drop', handleGenericDrop);
+        itemDiv.addEventListener('dragleave', handleGenericDragLeave);
+
+        list.appendChild(itemDiv);
     });
 }
 
@@ -411,16 +512,77 @@ function renderSkills() {
         return;
     }
 
-    cvData.skills.forEach(skill => {
-        const item = createListItem(
-            skill.skillName || 'Keahlian Belum Diisi',
-            skill.proficiency || '',
-            '',
-            skill.id,
-            'skills'
-        );
-        list.appendChild(item);
+    cvData.skills.forEach((skill, index) => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'list-item';
+        itemDiv.draggable = true;
+        itemDiv.dataset.skillId = skill.id;
+        itemDiv.dataset.index = index;
+
+        itemDiv.innerHTML = `
+            <div class="drag-handle" title="Seret untuk mengubah urutan">⋮⋮</div>
+            <div class="list-item-content" style="flex: 1;">
+                <h4>${skill.skillName || 'Keahlian Belum Diisi'}</h4>
+            </div>
+            <div class="list-item-actions">
+                <button class="btn btn-edit" onclick="editSkill(${skill.id})">Edit</button>
+                <button class="btn btn-remove" onclick="deleteSkill(${skill.id})">Hapus</button>
+            </div>
+        `;
+
+        itemDiv.addEventListener('dragstart', handleSkillDragStart);
+        itemDiv.addEventListener('dragend', handleSkillDragEnd);
+        itemDiv.addEventListener('dragover', handleSkillDragOver);
+        itemDiv.addEventListener('drop', handleSkillDrop);
+        itemDiv.addEventListener('dragleave', handleSkillDragLeave);
+
+        list.appendChild(itemDiv);
     });
+}
+
+let draggedSkill = null;
+
+function handleSkillDragStart(e) {
+    draggedSkill = this;
+    this.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+}
+
+function handleSkillDragEnd(e) {
+    this.classList.remove('dragging');
+    document.querySelectorAll('#skillsList .list-item').forEach(item => {
+        item.classList.remove('drag-over');
+    });
+}
+
+function handleSkillDragOver(e) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    
+    if (this !== draggedSkill) {
+        this.classList.add('drag-over');
+    }
+}
+
+function handleSkillDragLeave(e) {
+    this.classList.remove('drag-over');
+}
+
+function handleSkillDrop(e) {
+    e.preventDefault();
+    
+    if (this !== draggedSkill) {
+        const draggedIndex = parseInt(draggedSkill.dataset.index);
+        const targetIndex = parseInt(this.dataset.index);
+        
+        const temp = cvData.skills[draggedIndex];
+        cvData.skills[draggedIndex] = cvData.skills[targetIndex];
+        cvData.skills[targetIndex] = temp;
+        
+        saveData();
+        renderSkills();
+        updatePreview();
+    }
 }
 
 function editSkill(id) {
@@ -443,6 +605,77 @@ function saveSkill(id, data) {
     }
     saveData();
     renderSkills();
+}
+
+// GENERIC DRAG & DROP HANDLER
+let draggedItem = null;
+
+function handleGenericDragStart(e) {
+    draggedItem = this;
+    this.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+}
+
+function handleGenericDragEnd(e) {
+    if (draggedItem) {
+        draggedItem.classList.remove('dragging');
+    }
+    const listContainer = e.target.closest('.list-container') || document.getElementById(this.dataset.listId);
+    if (listContainer) {
+        listContainer.querySelectorAll('.list-item').forEach(item => {
+            item.classList.remove('drag-over');
+        });
+    }
+}
+
+function handleGenericDragOver(e) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    
+    if (this !== draggedItem) {
+        this.classList.add('drag-over');
+    }
+}
+
+function handleGenericDragLeave(e) {
+    this.classList.remove('drag-over');
+}
+
+function handleGenericDrop(e) {
+    e.preventDefault();
+    
+    if (this === draggedItem) return;
+    
+    const draggedIndex = parseInt(draggedItem.dataset.index);
+    const targetIndex = parseInt(this.dataset.index);
+    const itemType = this.dataset.itemType;
+    
+    if (draggedIndex === targetIndex) return;
+    
+    const dataArray = cvData[itemType];
+    if (dataArray && Array.isArray(dataArray)) {
+        const temp = dataArray[draggedIndex];
+        dataArray[draggedIndex] = dataArray[targetIndex];
+        dataArray[targetIndex] = temp;
+        
+        saveData();
+        
+        const renderFunctionMap = {
+            education: renderEducation,
+            experience: renderExperience,
+            training: renderTraining,
+            certificates: renderCertificates,
+            projects: renderProjects,
+            skills: renderSkills,
+            volunteer: renderVolunteer,
+            languages: renderLanguages
+        };
+        
+        if (renderFunctionMap[itemType]) {
+            renderFunctionMap[itemType]();
+        }
+        updatePreview();
+    }
 }
 
 // VOLUNTEER FUNCTIONS
@@ -468,15 +701,35 @@ function renderVolunteer() {
         return;
     }
 
-    cvData.volunteer.forEach(vol => {
-        const item = createListItem(
-            vol.position || 'Posisi Belum Diisi',
-            vol.organization || '',
-            `${vol.startDate} - ${vol.endDate}`,
-            vol.id,
-            'volunteer'
-        );
-        list.appendChild(item);
+    cvData.volunteer.forEach((vol, index) => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'list-item';
+        itemDiv.draggable = true;
+        itemDiv.dataset.itemId = vol.id;
+        itemDiv.dataset.index = index;
+        itemDiv.dataset.itemType = 'volunteer';
+        itemDiv.dataset.listId = 'volunteerList';
+
+        itemDiv.innerHTML = `
+            <div class="drag-handle" title="Seret untuk mengubah urutan">⋮⋮</div>
+            <div class="list-item-content" style="flex: 1;">
+                <h4>${vol.position || 'Posisi Belum Diisi'}</h4>
+                <p>${vol.organization || ''}</p>
+                <p><small>${vol.startDate} - ${vol.endDate}</small></p>
+            </div>
+            <div class="list-item-actions">
+                <button class="btn btn-edit" onclick="editVolunteer(${vol.id})">Edit</button>
+                <button class="btn btn-remove" onclick="deleteVolunteer(${vol.id})">Hapus</button>
+            </div>
+        `;
+
+        itemDiv.addEventListener('dragstart', handleGenericDragStart);
+        itemDiv.addEventListener('dragend', handleGenericDragEnd);
+        itemDiv.addEventListener('dragover', handleGenericDragOver);
+        itemDiv.addEventListener('drop', handleGenericDrop);
+        itemDiv.addEventListener('dragleave', handleGenericDragLeave);
+
+        list.appendChild(itemDiv);
     });
 }
 
@@ -522,15 +775,34 @@ function renderLanguages() {
         return;
     }
 
-    cvData.languages.forEach(lang => {
-        const item = createListItem(
-            lang.language || 'Bahasa Belum Diisi',
-            lang.proficiency || '',
-            '',
-            lang.id,
-            'languages'
-        );
-        list.appendChild(item);
+    cvData.languages.forEach((lang, index) => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'list-item';
+        itemDiv.draggable = true;
+        itemDiv.dataset.itemId = lang.id;
+        itemDiv.dataset.index = index;
+        itemDiv.dataset.itemType = 'languages';
+        itemDiv.dataset.listId = 'languagesList';
+
+        itemDiv.innerHTML = `
+            <div class="drag-handle" title="Seret untuk mengubah urutan">⋮⋮</div>
+            <div class="list-item-content" style="flex: 1;">
+                <h4>${lang.language || 'Bahasa Belum Diisi'}</h4>
+                <p>${lang.proficiency || ''}</p>
+            </div>
+            <div class="list-item-actions">
+                <button class="btn btn-edit" onclick="editLanguage(${lang.id})">Edit</button>
+                <button class="btn btn-remove" onclick="deleteLanguage(${lang.id})">Hapus</button>
+            </div>
+        `;
+
+        itemDiv.addEventListener('dragstart', handleGenericDragStart);
+        itemDiv.addEventListener('dragend', handleGenericDragEnd);
+        itemDiv.addEventListener('dragover', handleGenericDragOver);
+        itemDiv.addEventListener('drop', handleGenericDrop);
+        itemDiv.addEventListener('dragleave', handleGenericDragLeave);
+
+        list.appendChild(itemDiv);
     });
 }
 
@@ -954,6 +1226,200 @@ function saveLanguageModal(id) {
 }
 
 // Update CV Preview
+// Get section order from navigation menu
+function getSectionOrder() {
+    const savedOrder = localStorage.getItem('navMenuOrder');
+    if (savedOrder) {
+        try {
+            return JSON.parse(savedOrder);
+        } catch (error) {
+            console.error('Error parsing nav menu order:', error);
+        }
+    }
+    
+    // Default order if not saved
+    return ['personal', 'education', 'experience', 'training', 'certificate', 'projects', 'skills', 'volunteer', 'languages'];
+}
+
+// Render section content based on tab name
+function renderSectionContent(tabName) {
+    let html = '';
+    
+    switch(tabName) {
+        case 'education':
+            if (cvData.education.length > 0) {
+                html += '<h2>Pendidikan</h2>';
+                cvData.education.forEach(edu => {
+                    html += `
+                        <div class="item">
+                            <span class="item-date">${edu.startDate} – ${edu.endDate}</span>
+                            <div class="item-title">${edu.university || ''}</div>
+                            <div class="item-company">${edu.degree || ''} ${edu.field || ''}</div>
+                            ${edu.gpa ? `<div class="item-company">GPA: ${edu.gpa}</div>` : ''}
+                        </div>
+                    `;
+                });
+            }
+            break;
+            
+        case 'experience':
+            if (cvData.experience.length > 0) {
+                html += '<h2>Pengalaman Kerja</h2>';
+                cvData.experience.forEach(exp => {
+                    html += `
+                        <div class="item">
+                            <span class="item-date">${exp.startDate} - ${exp.endDate}</span>
+                            <div class="item-title">${exp.position || ''}</div>
+                            <div class="item-company">${exp.company || ''}</div>
+                    `;
+                    if (exp.description) {
+                        const bullets = exp.description.split('\n').filter(line => line.trim());
+                        if (bullets.length > 0) {
+                            html += '<ul>';
+                            bullets.forEach(bullet => {
+                                let cleanBullet = bullet.trim();
+                                if (cleanBullet.startsWith('•')) {
+                                    cleanBullet = cleanBullet.substring(1).trim();
+                                }
+                                html += `<li>${cleanBullet}</li>`;
+                            });
+                            html += '</ul>';
+                        }
+                    }
+                    html += '</div>';
+                });
+            }
+            break;
+            
+        case 'training':
+            if (cvData.training.length > 0) {
+                html += '<h2>Pelatihan</h2>';
+                cvData.training.forEach(train => {
+                    html += `
+                        <div class="item">
+                            <span class="item-date">${train.startDate} – ${train.endDate}</span>
+                            <div class="item-title">${train.title || ''}</div>
+                            <div class="item-company">${train.institution || ''}</div>
+                    `;
+                    if (train.description) {
+                        const bullets = train.description.split('\n').filter(line => line.trim());
+                        if (bullets.length > 0) {
+                            html += '<ul>';
+                            bullets.forEach(bullet => {
+                                let cleanBullet = bullet.trim();
+                                if (cleanBullet.startsWith('•')) {
+                                    cleanBullet = cleanBullet.substring(1).trim();
+                                }
+                                html += `<li>${cleanBullet}</li>`;
+                            });
+                            html += '</ul>';
+                        }
+                    }
+                    html += '</div>';
+                });
+            }
+            break;
+            
+        case 'certificate':
+            if (cvData.certificates.length > 0) {
+                html += '<h2>Sertifikat</h2>';
+                cvData.certificates.forEach(cert => {
+                    html += `
+                        <div class="item">
+                            <span class="item-date">${cert.issueDate}${cert.expiryDate ? ' - ' + cert.expiryDate : ''}</span>
+                            <div class="item-title">${cert.title || ''}</div>
+                            <div class="item-company">${cert.issuer || ''}</div>
+                        </div>
+                    `;
+                });
+            }
+            break;
+            
+        case 'projects':
+            if (cvData.projects.length > 0) {
+                html += '<h2>Proyek Teknis</h2>';
+                cvData.projects.forEach(proj => {
+                    html += `
+                        <div class="item">
+                            <div class="item-title">${proj.title || ''}</div>
+                            <div class="item-company">${proj.technologies || ''}</div>
+                    `;
+                    if (proj.description) {
+                        const bullets = proj.description.split('\n').filter(line => line.trim());
+                        if (bullets.length > 0) {
+                            html += '<ul>';
+                            bullets.forEach(bullet => {
+                                let cleanBullet = bullet.trim();
+                                if (cleanBullet.startsWith('•')) {
+                                    cleanBullet = cleanBullet.substring(1).trim();
+                                }
+                                html += `<li>${cleanBullet}</li>`;
+                            });
+                            html += '</ul>';
+                        }
+                    }
+                    html += '</div>';
+                });
+            }
+            break;
+            
+        case 'skills':
+            if (cvData.skills.length > 0) {
+                html += '<h2>Keahlian</h2>';
+                html += '<ul>';
+                cvData.skills.forEach(skill => {
+                    html += `<li>${skill.skillName || ''}</li>`;
+                });
+                html += '</ul>';
+            }
+            break;
+            
+        case 'volunteer':
+            if (cvData.volunteer.length > 0) {
+                html += '<h2>Volunteer</h2>';
+                cvData.volunteer.forEach(vol => {
+                    html += `
+                        <div class="item">
+                            <span class="item-date">${vol.startDate} – ${vol.endDate}</span>
+                            <div class="item-title">${vol.position || ''}</div>
+                            <div class="item-company">${vol.organization || ''}</div>
+                    `;
+                    if (vol.description) {
+                        const bullets = vol.description.split('\n').filter(line => line.trim());
+                        if (bullets.length > 0) {
+                            html += '<ul>';
+                            bullets.forEach(bullet => {
+                                let cleanBullet = bullet.trim();
+                                if (cleanBullet.startsWith('•')) {
+                                    cleanBullet = cleanBullet.substring(1).trim();
+                                }
+                                html += `<li>${cleanBullet}</li>`;
+                            });
+                            html += '</ul>';
+                        }
+                    }
+                    html += '</div>';
+                });
+            }
+            break;
+            
+        case 'languages':
+            if (cvData.languages.length > 0) {
+                html += '<h2>Bahasa</h2>';
+                cvData.languages.forEach(lang => {
+                    html += `
+                        <div class="item">
+                            <div class="item-title">${lang.language || ''} – ${lang.proficiency || ''}</div>
+                        </div>
+                    `;
+                });
+            }
+            break;
+    }
+    
+    return html;
+}
+
 function updatePreview() {
     const preview = document.getElementById('cvPreview');
     
@@ -975,167 +1441,13 @@ function updatePreview() {
         `;
     }
 
-    // Education
-    if (cvData.education.length > 0) {
-        html += '<h2>Pendidikan</h2>';
-        cvData.education.forEach(edu => {
-            html += `
-                <div class="item">
-                    <span class="item-date">${edu.startDate} – ${edu.endDate}</span>
-                    <div class="item-title">${edu.university || ''}</div>
-                    <div class="item-company">${edu.degree || ''} ${edu.field || ''}</div>
-                    ${edu.gpa ? `<div class="item-company">GPA: ${edu.gpa}</div>` : ''}
-                </div>
-            `;
-        });
-    }
-
-    // Experience
-    if (cvData.experience.length > 0) {
-        html += '<h2>Pengalaman Kerja</h2>';
-        cvData.experience.forEach(exp => {
-            html += `
-                <div class="item">
-                    <span class="item-date">${exp.startDate} - ${exp.endDate}</span>
-                    <div class="item-title">${exp.position || ''}</div>
-                    <div class="item-company">${exp.company || ''}</div>
-            `;
-            if (exp.description) {
-                const bullets = exp.description.split('\n').filter(line => line.trim());
-                if (bullets.length > 0) {
-                    html += '<ul>';
-                    bullets.forEach(bullet => {
-                        let cleanBullet = bullet.trim();
-                        if (cleanBullet.startsWith('•')) {
-                            cleanBullet = cleanBullet.substring(1).trim();
-                        }
-                        html += `<li>${cleanBullet}</li>`;
-                    });
-                    html += '</ul>';
-                }
-            }
-            html += '</div>';
-        });
-    }
-
-    // Training
-    if (cvData.training.length > 0) {
-        html += '<h2>Pelatihan</h2>';
-        cvData.training.forEach(train => {
-            html += `
-                <div class="item">
-                    <span class="item-date">${train.startDate} – ${train.endDate}</span>
-                    <div class="item-title">${train.title || ''}</div>
-                    <div class="item-company">${train.institution || ''}</div>
-            `;
-            if (train.description) {
-                const bullets = train.description.split('\n').filter(line => line.trim());
-                if (bullets.length > 0) {
-                    html += '<ul>';
-                    bullets.forEach(bullet => {
-                        let cleanBullet = bullet.trim();
-                        if (cleanBullet.startsWith('•')) {
-                            cleanBullet = cleanBullet.substring(1).trim();
-                        }
-                        html += `<li>${cleanBullet}</li>`;
-                    });
-                    html += '</ul>';
-                }
-            }
-            html += '</div>';
-        });
-    }
-
-    // Certificates
-    if (cvData.certificates.length > 0) {
-        html += '<h2>Sertifikat</h2>';
-        cvData.certificates.forEach(cert => {
-            html += `
-                <div class="item">
-                    <span class="item-date">${cert.issueDate}${cert.expiryDate ? ' - ' + cert.expiryDate : ''}</span>
-                    <div class="item-title">${cert.title || ''}</div>
-                    <div class="item-company">${cert.issuer || ''}</div>
-                </div>
-            `;
-        });
-    }
-
-    // Projects
-    if (cvData.projects.length > 0) {
-        html += '<h2>Proyek Teknis</h2>';
-        cvData.projects.forEach(proj => {
-            html += `
-                <div class="item">
-                    <div class="item-title">${proj.title || ''}</div>
-                    <div class="item-company">${proj.technologies || ''}</div>
-            `;
-            if (proj.description) {
-                const bullets = proj.description.split('\n').filter(line => line.trim());
-                if (bullets.length > 0) {
-                    html += '<ul>';
-                    bullets.forEach(bullet => {
-                        let cleanBullet = bullet.trim();
-                        if (cleanBullet.startsWith('•')) {
-                            cleanBullet = cleanBullet.substring(1).trim();
-                        }
-                        html += `<li>${cleanBullet}</li>`;
-                    });
-                    html += '</ul>';
-                }
-            }
-            html += '</div>';
-        });
-    }
-
-    // Skills
-    if (cvData.skills.length > 0) {
-        html += '<h2>Keahlian</h2>';
-        html += '<ul>';
-        cvData.skills.forEach(skill => {
-            html += `<li>${skill.skillName || ''}</li>`;
-        });
-        html += '</ul>';
-    }
-
-    // Volunteer
-    if (cvData.volunteer.length > 0) {
-        html += '<h2>Volunteer</h2>';
-        cvData.volunteer.forEach(vol => {
-            html += `
-                <div class="item">
-                    <span class="item-date">${vol.startDate} – ${vol.endDate}</span>
-                    <div class="item-title">${vol.position || ''}</div>
-                    <div class="item-company">${vol.organization || ''}</div>
-            `;
-            if (vol.description) {
-                const bullets = vol.description.split('\n').filter(line => line.trim());
-                if (bullets.length > 0) {
-                    html += '<ul>';
-                    bullets.forEach(bullet => {
-                        let cleanBullet = bullet.trim();
-                        if (cleanBullet.startsWith('•')) {
-                            cleanBullet = cleanBullet.substring(1).trim();
-                        }
-                        html += `<li>${cleanBullet}</li>`;
-                    });
-                    html += '</ul>';
-                }
-            }
-            html += '</div>';
-        });
-    }
-
-    // Languages
-    if (cvData.languages.length > 0) {
-        html += '<h2>Bahasa</h2>';
-        cvData.languages.forEach(lang => {
-            html += `
-                <div class="item">
-                    <div class="item-title">${lang.language || ''} – ${lang.proficiency || ''}</div>
-                </div>
-            `;
-        });
-    }
+    // Render sections in order based on navigation menu
+    const sectionOrder = getSectionOrder();
+    sectionOrder.forEach(tabName => {
+        if (tabName !== 'personal') {
+            html += renderSectionContent(tabName);
+        }
+    });
 
     preview.innerHTML = html;
 }
@@ -1299,6 +1611,7 @@ function handleFileImport(event) {
             renderTraining();
             renderCertificates();
             renderProjects();
+            renderSkills();
             renderVolunteer();
             renderLanguages();
             updatePreview();
@@ -1312,4 +1625,98 @@ function handleFileImport(event) {
     
     // Reset file input
     event.target.value = '';
+}
+
+// NAVIGATION MENU DRAG & DROP
+let draggedNavItem = null;
+
+function initNavDragDrop() {
+    const navItems = document.querySelectorAll('.nav-item-wrapper');
+    
+    navItems.forEach(item => {
+        item.addEventListener('dragstart', handleNavDragStart);
+        item.addEventListener('dragend', handleNavDragEnd);
+        item.addEventListener('dragover', handleNavDragOver);
+        item.addEventListener('drop', handleNavDrop);
+        item.addEventListener('dragleave', handleNavDragLeave);
+    });
+}
+
+function handleNavDragStart(e) {
+    draggedNavItem = this;
+    this.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+}
+
+function handleNavDragEnd(e) {
+    if (draggedNavItem) {
+        draggedNavItem.classList.remove('dragging');
+    }
+    document.querySelectorAll('.nav-item-wrapper').forEach(item => {
+        item.classList.remove('drag-over');
+    });
+}
+
+function handleNavDragOver(e) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    
+    if (this !== draggedNavItem) {
+        this.classList.add('drag-over');
+    }
+}
+
+function handleNavDragLeave(e) {
+    this.classList.remove('drag-over');
+}
+
+function handleNavDrop(e) {
+    e.preventDefault();
+    
+    if (this === draggedNavItem) return;
+    
+    const navMenu = document.querySelector('.nav-menu');
+    const allItems = Array.from(navMenu.querySelectorAll('.nav-item-wrapper'));
+    
+    const draggedIndex = allItems.indexOf(draggedNavItem);
+    const targetIndex = allItems.indexOf(this);
+    
+    if (draggedIndex < targetIndex) {
+        this.parentNode.insertBefore(draggedNavItem, this.nextSibling);
+    } else {
+        this.parentNode.insertBefore(draggedNavItem, this);
+    }
+    
+    saveNavMenuOrder();
+    updatePreview();
+}
+
+function saveNavMenuOrder() {
+    const navItems = document.querySelectorAll('.nav-item-wrapper');
+    const order = Array.from(navItems).map(item => item.dataset.tab);
+    localStorage.setItem('navMenuOrder', JSON.stringify(order));
+}
+
+function loadNavMenuOrder() {
+    const savedOrder = localStorage.getItem('navMenuOrder');
+    if (!savedOrder) return;
+    
+    try {
+        const order = JSON.parse(savedOrder);
+        const navMenu = document.querySelector('.nav-menu');
+        const navItems = document.querySelectorAll('.nav-item-wrapper');
+        const itemMap = {};
+        
+        navItems.forEach(item => {
+            itemMap[item.dataset.tab] = item;
+        });
+        
+        order.forEach(tab => {
+            if (itemMap[tab]) {
+                navMenu.appendChild(itemMap[tab]);
+            }
+        });
+    } catch (error) {
+        console.error('Gagal memuat urutan menu navigasi:', error);
+    }
 }

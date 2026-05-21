@@ -13,6 +13,242 @@ async function exportToPDF() {
     }
 }
 
+// Get section order from navigation menu (for PDF)
+function getSectionOrderForPDF() {
+    const savedOrder = localStorage.getItem('navMenuOrder');
+    if (savedOrder) {
+        try {
+            return JSON.parse(savedOrder);
+        } catch (error) {
+            console.error('Error parsing nav menu order:', error);
+        }
+    }
+    return ['personal', 'education', 'experience', 'training', 'certificate', 'projects', 'skills', 'volunteer', 'languages'];
+}
+
+// Render section content for PDF based on tab name
+function renderSectionContentPDF(tabName) {
+    let cvHTML = '';
+    
+    switch(tabName) {
+        case 'education':
+            if (cvData.education.length > 0) {
+                cvHTML += '<div style="margin-bottom: 12px;">';
+                cvHTML += '<h2 style="font-size: 13px; font-weight: bold; margin: 0 0 8px 0; border-bottom: 1px solid #000; padding-bottom: 3px;">Pendidikan</h2>';
+                cvData.education.forEach(edu => {
+                    cvHTML += `
+                        <div style="margin-bottom: 8px; font-size: 11px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                                <strong>${escapeHtml(edu.university || '')}</strong>
+                                <span>${edu.startDate} – ${edu.endDate}</span>
+                            </div>
+                            <div style="color: #555; margin-bottom: 2px;">
+                                ${escapeHtml(edu.degree || '')} ${escapeHtml(edu.field || '')}
+                            </div>
+                            ${edu.gpa ? `<div style="color: #555;">IPK: ${escapeHtml(edu.gpa)}</div>` : ''}
+                        </div>
+                    `;
+                });
+                cvHTML += '</div>';
+            }
+            break;
+            
+        case 'experience':
+            if (cvData.experience.length > 0) {
+                cvHTML += '<div style="margin-bottom: 12px;">';
+                cvHTML += '<h2 style="font-size: 13px; font-weight: bold; margin: 0 0 8px 0; border-bottom: 1px solid #000; padding-bottom: 3px;">Pengalaman</h2>';
+                cvData.experience.forEach((exp, index) => {
+                    cvHTML += `
+                        <div style="margin-bottom: 8px; font-size: 11px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                                <strong>${index + 1}. ${escapeHtml(exp.position || '')}</strong>
+                                <span>${exp.startDate} - ${exp.endDate}</span>
+                            </div>
+                            <div style="color: #555; font-style: italic; margin-bottom: 4px;">
+                                ${escapeHtml(exp.company || '')}
+                            </div>
+                    `;
+                    
+                    if (exp.description) {
+                        const bullets = exp.description.split('\n').filter(line => line.trim());
+                        if (bullets.length > 0) {
+                            cvHTML += '<ul style="margin: 3px 0; padding-left: 20px;">';
+                            bullets.forEach(bullet => {
+                                let cleanBullet = bullet.trim();
+                                if (cleanBullet.startsWith('•')) {
+                                    cleanBullet = cleanBullet.substring(1).trim();
+                                }
+                                cvHTML += `<li style="margin-bottom: 2px;">${escapeHtml(cleanBullet)}</li>`;
+                            });
+                            cvHTML += '</ul>';
+                        }
+                    }
+                    cvHTML += '</div>';
+                });
+                cvHTML += '</div>';
+            }
+            break;
+            
+        case 'training':
+            if (cvData.training.length > 0) {
+                cvHTML += '<div style="margin-bottom: 12px;">';
+                cvHTML += '<h2 style="font-size: 13px; font-weight: bold; margin: 0 0 8px 0; border-bottom: 1px solid #000; padding-bottom: 3px;">Pelatihan</h2>';
+                cvData.training.forEach((train, index) => {
+                    cvHTML += `
+                        <div style="margin-bottom: 8px; font-size: 11px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                                <strong>${index + 1}. ${escapeHtml(train.title || '')}</strong>
+                                <span>${train.startDate} – ${train.endDate}</span>
+                            </div>
+                            <div style="color: #555; font-style: italic; margin-bottom: 4px;">
+                                ${escapeHtml(train.institution || '')}
+                            </div>
+                    `;
+                    
+                    if (train.description) {
+                        const bullets = train.description.split('\n').filter(line => line.trim());
+                        if (bullets.length > 0) {
+                            cvHTML += '<ul style="margin: 3px 0; padding-left: 20px;">';
+                            bullets.forEach(bullet => {
+                                let cleanBullet = bullet.trim();
+                                if (cleanBullet.startsWith('•')) {
+                                    cleanBullet = cleanBullet.substring(1).trim();
+                                }
+                                cvHTML += `<li style="margin-bottom: 2px;">${escapeHtml(cleanBullet)}</li>`;
+                            });
+                            cvHTML += '</ul>';
+                        }
+                    }
+                    cvHTML += '</div>';
+                });
+                cvHTML += '</div>';
+            }
+            break;
+            
+        case 'certificate':
+            if (cvData.certificates.length > 0) {
+                cvHTML += '<div style="margin-bottom: 12px;">';
+                cvHTML += '<h2 style="font-size: 13px; font-weight: bold; margin: 0 0 8px 0; border-bottom: 1px solid #000; padding-bottom: 3px;">Sertifikat</h2>';
+                cvData.certificates.forEach((cert, index) => {
+                    cvHTML += `
+                        <div style="margin-bottom: 8px; font-size: 11px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                                <strong>${index + 1}. ${escapeHtml(cert.title || '')}</strong>
+                                <span>${cert.issueDate}${cert.expiryDate ? ' - ' + cert.expiryDate : ''}</span>
+                            </div>
+                            <div style="color: #555;">
+                                ${escapeHtml(cert.issuer || '')}
+                            </div>
+                        </div>
+                    `;
+                });
+                cvHTML += '</div>';
+            }
+            break;
+            
+        case 'projects':
+            if (cvData.projects.length > 0) {
+                cvHTML += '<div style="margin-bottom: 12px;">';
+                cvHTML += '<h2 style="font-size: 13px; font-weight: bold; margin: 0 0 8px 0; border-bottom: 1px solid #000; padding-bottom: 3px;">Proyek Teknis</h2>';
+                cvData.projects.forEach((proj, index) => {
+                    cvHTML += `
+                        <div style="margin-bottom: 8px; font-size: 11px;">
+                            <strong>${index + 1}. ${escapeHtml(proj.title || '')}</strong>
+                    `;
+                    
+                    if (proj.technologies) {
+                        cvHTML += `<div style="color: #555; margin-bottom: 2px;">${escapeHtml(proj.technologies)}</div>`;
+                    }
+                    
+                    if (proj.description) {
+                        const bullets = proj.description.split('\n').filter(line => line.trim());
+                        if (bullets.length > 0) {
+                            cvHTML += '<ul style="margin: 3px 0; padding-left: 20px;">';
+                            bullets.forEach(bullet => {
+                                let cleanBullet = bullet.trim();
+                                if (cleanBullet.startsWith('•')) {
+                                    cleanBullet = cleanBullet.substring(1).trim();
+                                }
+                                cvHTML += `<li style="margin-bottom: 2px;">${escapeHtml(cleanBullet)}</li>`;
+                            });
+                            cvHTML += '</ul>';
+                        }
+                    }
+                    cvHTML += '</div>';
+                });
+                cvHTML += '</div>';
+            }
+            break;
+            
+        case 'skills':
+            if (cvData.skills.length > 0) {
+                cvHTML += '<div style="margin-bottom: 12px;">';
+                cvHTML += '<h2 style="font-size: 13px; font-weight: bold; margin: 0 0 8px 0; border-bottom: 1px solid #000; padding-bottom: 3px;">Keahlian</h2>';
+                cvHTML += '<ul style="margin: 3px 0; padding-left: 20px; font-size: 11px;">';
+                cvData.skills.forEach(skill => {
+                    cvHTML += `<li style="margin-bottom: 2px;">${escapeHtml(skill.skillName || '')}</li>`;
+                });
+                cvHTML += '</ul>';
+                cvHTML += '</div>';
+            }
+            break;
+            
+        case 'volunteer':
+            if (cvData.volunteer.length > 0) {
+                cvHTML += '<div style="margin-bottom: 12px;">';
+                cvHTML += '<h2 style="font-size: 13px; font-weight: bold; margin: 0 0 8px 0; border-bottom: 1px solid #000; padding-bottom: 3px;">Volunteer</h2>';
+                cvData.volunteer.forEach((vol, index) => {
+                    cvHTML += `
+                        <div style="margin-bottom: 8px; font-size: 11px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                                <strong>${index + 1}. ${escapeHtml(vol.position || '')}</strong>
+                                <span>${vol.startDate} – ${vol.endDate}</span>
+                            </div>
+                            <div style="color: #555; font-style: italic; margin-bottom: 4px;">
+                                ${escapeHtml(vol.organization || '')}
+                            </div>
+                    `;
+                    
+                    if (vol.description) {
+                        const bullets = vol.description.split('\n').filter(line => line.trim());
+                        if (bullets.length > 0) {
+                            cvHTML += '<ul style="margin: 3px 0; padding-left: 20px;">';
+                            bullets.forEach(bullet => {
+                                let cleanBullet = bullet.trim();
+                                if (cleanBullet.startsWith('•')) {
+                                    cleanBullet = cleanBullet.substring(1).trim();
+                                }
+                                cvHTML += `<li style="margin-bottom: 2px;">${escapeHtml(cleanBullet)}</li>`;
+                            });
+                            cvHTML += '</ul>';
+                        }
+                    }
+                    cvHTML += '</div>';
+                });
+                cvHTML += '</div>';
+            }
+            break;
+            
+        case 'languages':
+            if (cvData.languages.length > 0) {
+                cvHTML += '<div style="margin-bottom: 12px;">';
+                cvHTML += '<h2 style="font-size: 13px; font-weight: bold; margin: 0 0 8px 0; border-bottom: 1px solid #000; padding-bottom: 3px;">Bahasa</h2>';
+                cvData.languages.forEach(lang => {
+                    cvHTML += `
+                        <div style="margin-bottom: 8px; font-size: 11px;">
+                            <div>${escapeHtml(lang.language || '')}</div>
+                            <div style="color: #555;">${escapeHtml(lang.proficiency || '')}</div>
+                        </div>
+                    `;
+                });
+                cvHTML += '</div>';
+            }
+            break;
+    }
+    
+    return cvHTML;
+}
+
 function generatePDF() {
     const element = document.createElement('div');
     element.style.padding = '20px';
@@ -71,187 +307,13 @@ function generatePDF() {
         cvHTML += '</div>';
     }
 
-    // Experience
-    if (cvData.experience.length > 0) {
-        cvHTML += '<div style="margin-bottom: 12px;">';
-        cvHTML += '<h2 style="font-size: 13px; font-weight: bold; margin: 0 0 8px 0; border-bottom: 1px solid #000; padding-bottom: 3px;">Pengalaman</h2>';
-        cvData.experience.forEach((exp, index) => {
-            cvHTML += `
-                <div style="margin-bottom: 8px; font-size: 11px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
-                        <strong>${index + 1}. ${escapeHtml(exp.position || '')}</strong>
-                        <span>${exp.startDate} - ${exp.endDate}</span>
-                    </div>
-                    <div style="color: #555; font-style: italic; margin-bottom: 4px;">
-                        ${escapeHtml(exp.company || '')}
-                    </div>
-            `;
-            
-            if (exp.description) {
-                const bullets = exp.description.split('\n').filter(line => line.trim());
-                if (bullets.length > 0) {
-                    cvHTML += '<ul style="margin: 3px 0; padding-left: 20px;">';
-                    bullets.forEach(bullet => {
-                        let cleanBullet = bullet.trim();
-                        if (cleanBullet.startsWith('•')) {
-                            cleanBullet = cleanBullet.substring(1).trim();
-                        }
-                        cvHTML += `<li style="margin-bottom: 2px;">${escapeHtml(cleanBullet)}</li>`;
-                    });
-                    cvHTML += '</ul>';
-                }
-            }
-            cvHTML += '</div>';
-        });
-        cvHTML += '</div>';
-    }
-
-    // Training
-    if (cvData.training.length > 0) {
-        cvHTML += '<div style="margin-bottom: 12px;">';
-        cvHTML += '<h2 style="font-size: 13px; font-weight: bold; margin: 0 0 8px 0; border-bottom: 1px solid #000; padding-bottom: 3px;">Pelatihan</h2>';
-        cvData.training.forEach((train, index) => {
-            cvHTML += `
-                <div style="margin-bottom: 8px; font-size: 11px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
-                        <strong>${index + 1}. ${escapeHtml(train.title || '')}</strong>
-                        <span>${train.startDate} – ${train.endDate}</span>
-                    </div>
-                    <div style="color: #555; font-style: italic; margin-bottom: 4px;">
-                        ${escapeHtml(train.institution || '')}
-                    </div>
-            `;
-            
-            if (train.description) {
-                const bullets = train.description.split('\n').filter(line => line.trim());
-                if (bullets.length > 0) {
-                    cvHTML += '<ul style="margin: 3px 0; padding-left: 20px;">';
-                    bullets.forEach(bullet => {
-                        let cleanBullet = bullet.trim();
-                        if (cleanBullet.startsWith('•')) {
-                            cleanBullet = cleanBullet.substring(1).trim();
-                        }
-                        cvHTML += `<li style="margin-bottom: 2px;">${escapeHtml(cleanBullet)}</li>`;
-                    });
-                    cvHTML += '</ul>';
-                }
-            }
-            cvHTML += '</div>';
-        });
-        cvHTML += '</div>';
-    }
-
-    // Certificates
-    if (cvData.certificates.length > 0) {
-        cvHTML += '<div style="margin-bottom: 12px;">';
-        cvHTML += '<h2 style="font-size: 13px; font-weight: bold; margin: 0 0 8px 0; border-bottom: 1px solid #000; padding-bottom: 3px;">Sertifikat</h2>';
-        cvData.certificates.forEach((cert, index) => {
-            cvHTML += `
-                <div style="margin-bottom: 8px; font-size: 11px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
-                        <strong>${index + 1}. ${escapeHtml(cert.title || '')}</strong>
-                        <span>${cert.issueDate}${cert.expiryDate ? ' - ' + cert.expiryDate : ''}</span>
-                    </div>
-                    <div style="color: #555;">
-                        ${escapeHtml(cert.issuer || '')}
-                        ${cert.credentialUrl ? ` - <a href="${escapeHtml(cert.credentialUrl)}" style="color: #0066cc; text-decoration: none;">${escapeHtml(cert.credentialUrl)}</a>` : ''}
-                    </div>
-                </div>
-            `;
-        });
-        cvHTML += '</div>';
-    }
-
-    // Projects
-    if (cvData.projects.length > 0) {
-        cvHTML += '<div style="margin-bottom: 12px;">';
-        cvHTML += '<h2 style="font-size: 13px; font-weight: bold; margin: 0 0 8px 0; border-bottom: 1px solid #000; padding-bottom: 3px;">Proyek Teknis</h2>';
-        cvData.projects.forEach((proj, index) => {
-            cvHTML += `
-                <div style="margin-bottom: 8px; font-size: 11px;">
-                    <strong>${index + 1}. ${escapeHtml(proj.title || '')}</strong>
-            `;
-            
-            if (proj.technologies) {
-                cvHTML += `<div style="color: #555; margin-bottom: 2px;">${escapeHtml(proj.technologies)}</div>`;
-            }
-            
-            if (proj.description) {
-                const bullets = proj.description.split('\n').filter(line => line.trim());
-                if (bullets.length > 0) {
-                    cvHTML += '<ul style="margin: 3px 0; padding-left: 20px;">';
-                    bullets.forEach(bullet => {
-                        let cleanBullet = bullet.trim();
-                        if (cleanBullet.startsWith('•')) {
-                            cleanBullet = cleanBullet.substring(1).trim();
-                        }
-                        cvHTML += `<li style="margin-bottom: 2px;">${escapeHtml(cleanBullet)}</li>`;
-                    });
-                    cvHTML += '</ul>';
-                }
-            }
-            cvHTML += '</div>';
-        });
-        cvHTML += '</div>';
-    }
-
-    // Skills
-    if (cvData.skills.length > 0) {
-        cvHTML += '<div style="margin-bottom: 12px;">';
-        cvHTML += '<h2 style="font-size: 13px; font-weight: bold; margin: 0 0 8px 0; border-bottom: 1px solid #000; padding-bottom: 3px;">Keahlian</h2>';
-        cvHTML += '<ul style="margin: 3px 0; padding-left: 20px; font-size: 11px;">';
-        cvData.skills.forEach(skill => {
-            cvHTML += `<li style="margin-bottom: 2px;">${escapeHtml(skill.skillName || '')}</li>`;
-        });
-        cvHTML += '</ul>';
-        cvHTML += '</div>';
-    }
-
-    // Volunteer
-    if (cvData.volunteer.length > 0) {
-        cvHTML += '<div style="margin-bottom: 12px;">';
-        cvHTML += '<h2 style="font-size: 13px; font-weight: bold; margin: 0 0 8px 0; border-bottom: 1px solid #000; padding-bottom: 3px;">Volunteer</h2>';
-        cvData.volunteer.forEach((vol, index) => {
-            cvHTML += `
-                <div style="margin-bottom: 8px; font-size: 11px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
-                        <strong>${index + 1}. ${escapeHtml(vol.position || '')}</strong>
-                        <span>${vol.startDate} – ${vol.endDate}</span>
-                    </div>
-                    <div style="color: #555; font-style: italic; margin-bottom: 4px;">
-                        ${escapeHtml(vol.organization || '')}
-                    </div>
-            `;
-            
-            if (vol.description) {
-                const bullets = vol.description.split('\n').filter(line => line.trim());
-                if (bullets.length > 0) {
-                    cvHTML += '<ul style="margin: 3px 0; padding-left: 20px;">';
-                    bullets.forEach(bullet => {
-                        let cleanBullet = bullet.trim();
-                        if (cleanBullet.startsWith('•')) {
-                            cleanBullet = cleanBullet.substring(1).trim();
-                        }
-                        cvHTML += `<li style="margin-bottom: 2px;">${escapeHtml(cleanBullet)}</li>`;
-                    });
-                    cvHTML += '</ul>';
-                }
-            }
-            cvHTML += '</div>';
-        });
-        cvHTML += '</div>';
-    }
-
-    // Languages
-    if (cvData.languages.length > 0) {
-        cvHTML += '<div style="margin-bottom: 12px;">';
-        cvHTML += '<h2 style="font-size: 13px; font-weight: bold; margin: 0 0 8px 0; border-bottom: 1px solid #000; padding-bottom: 3px;">Bahasa</h2>';
-        cvHTML += '<ul style="margin: 5px 0; padding-left: 20px; font-size: 11px;">';
-        cvData.languages.forEach(lang => {
-            cvHTML += `<li style="margin-bottom: 3px;"><strong>${escapeHtml(lang.language || '')}</strong> – ${escapeHtml(lang.proficiency || '')}</li>`;
-        });
-        cvHTML += '</ul></div>';
-    }
+    // Render sections in order based on navigation menu
+    const sectionOrder = getSectionOrderForPDF();
+    sectionOrder.forEach(tabName => {
+        if (tabName !== 'personal' && tabName !== 'education') {
+            cvHTML += renderSectionContentPDF(tabName);
+        }
+    });
 
     element.innerHTML = cvHTML;
 
