@@ -75,7 +75,12 @@ function updatePersonalData() {
     personalInputs.forEach(id => {
         const element = document.getElementById(id);
         if (element) {
-            cvData.personal[id] = element.value;
+            // SECURITY: Sanitize input to prevent command injection and XSS
+            if (id === 'linkedinUrl') {
+                cvData.personal[id] = sanitizeUrl(element.value);
+            } else {
+                cvData.personal[id] = sanitizeInput(element.value);
+            }
         }
     });
     saveData();
@@ -1132,12 +1137,12 @@ function getFormHTML(type, data) {
 function saveEducationModal(id) {
     const data = {
         id: id,
-        university: document.getElementById('modalUniversity').value,
-        degree: document.getElementById('modalDegree').value,
-        field: document.getElementById('modalField').value,
-        startDate: document.getElementById('modalStartDate').value,
-        endDate: document.getElementById('modalEndDate').value,
-        gpa: document.getElementById('modalGPA').value
+        university: sanitizeInput(document.getElementById('modalUniversity').value),
+        degree: sanitizeInput(document.getElementById('modalDegree').value),
+        field: sanitizeInput(document.getElementById('modalField').value),
+        startDate: sanitizeInput(document.getElementById('modalStartDate').value),
+        endDate: sanitizeInput(document.getElementById('modalEndDate').value),
+        gpa: sanitizeInput(document.getElementById('modalGPA').value)
     };
     saveEducation(id, data);
     closeModal();
@@ -1146,11 +1151,11 @@ function saveEducationModal(id) {
 function saveExperienceModal(id) {
     const data = {
         id: id,
-        company: document.getElementById('modalCompany').value,
-        position: document.getElementById('modalPosition').value,
-        startDate: document.getElementById('modalStartDate').value,
-        endDate: document.getElementById('modalEndDate').value,
-        description: document.getElementById('modalDescription').value
+        company: sanitizeInput(document.getElementById('modalCompany').value),
+        position: sanitizeInput(document.getElementById('modalPosition').value),
+        startDate: sanitizeInput(document.getElementById('modalStartDate').value),
+        endDate: sanitizeInput(document.getElementById('modalEndDate').value),
+        description: sanitizeInput(document.getElementById('modalDescription').value)
     };
     saveExperience(id, data);
     closeModal();
@@ -1159,11 +1164,11 @@ function saveExperienceModal(id) {
 function saveTrainingModal(id) {
     const data = {
         id: id,
-        title: document.getElementById('modalTitle').value,
-        institution: document.getElementById('modalInstitution').value,
-        startDate: document.getElementById('modalStartDate').value,
-        endDate: document.getElementById('modalEndDate').value,
-        description: document.getElementById('modalDescription').value
+        title: sanitizeInput(document.getElementById('modalTitle').value),
+        institution: sanitizeInput(document.getElementById('modalInstitution').value),
+        startDate: sanitizeInput(document.getElementById('modalStartDate').value),
+        endDate: sanitizeInput(document.getElementById('modalEndDate').value),
+        description: sanitizeInput(document.getElementById('modalDescription').value)
     };
     saveTraining(id, data);
     closeModal();
@@ -1172,11 +1177,11 @@ function saveTrainingModal(id) {
 function saveCertificateModal(id) {
     const data = {
         id: id,
-        title: document.getElementById('modalTitle').value,
-        issuer: document.getElementById('modalIssuer').value,
-        issueDate: document.getElementById('modalIssueDate').value,
-        expiryDate: document.getElementById('modalExpiryDate').value,
-        credentialUrl: document.getElementById('modalCredentialUrl').value
+        title: sanitizeInput(document.getElementById('modalTitle').value),
+        issuer: sanitizeInput(document.getElementById('modalIssuer').value),
+        issueDate: sanitizeInput(document.getElementById('modalIssueDate').value),
+        expiryDate: sanitizeInput(document.getElementById('modalExpiryDate').value),
+        credentialUrl: sanitizeUrl(document.getElementById('modalCredentialUrl').value)
     };
     saveCertificate(id, data);
     closeModal();
@@ -1185,9 +1190,9 @@ function saveCertificateModal(id) {
 function saveProjectModal(id) {
     const data = {
         id: id,
-        title: document.getElementById('modalTitle').value,
-        description: document.getElementById('modalDescription').value,
-        technologies: document.getElementById('modalTechnologies').value
+        title: sanitizeInput(document.getElementById('modalTitle').value),
+        description: sanitizeInput(document.getElementById('modalDescription').value),
+        technologies: sanitizeInput(document.getElementById('modalTechnologies').value)
     };
     saveProject(id, data);
     closeModal();
@@ -1196,7 +1201,7 @@ function saveProjectModal(id) {
 function saveSkillModal(id) {
     const data = {
         id: id,
-        skillName: document.getElementById('modalSkillName').value
+        skillName: sanitizeInput(document.getElementById('modalSkillName').value)
     };
     saveSkill(id, data);
     closeModal();
@@ -1205,11 +1210,11 @@ function saveSkillModal(id) {
 function saveVolunteerModal(id) {
     const data = {
         id: id,
-        organization: document.getElementById('modalOrganization').value,
-        position: document.getElementById('modalPosition').value,
-        startDate: document.getElementById('modalStartDate').value,
-        endDate: document.getElementById('modalEndDate').value,
-        description: document.getElementById('modalDescription').value
+        organization: sanitizeInput(document.getElementById('modalOrganization').value),
+        position: sanitizeInput(document.getElementById('modalPosition').value),
+        startDate: sanitizeInput(document.getElementById('modalStartDate').value),
+        endDate: sanitizeInput(document.getElementById('modalEndDate').value),
+        description: sanitizeInput(document.getElementById('modalDescription').value)
     };
     saveVolunteer(id, data);
     closeModal();
@@ -1218,8 +1223,8 @@ function saveVolunteerModal(id) {
 function saveLanguageModal(id) {
     const data = {
         id: id,
-        language: document.getElementById('modalLanguage').value,
-        proficiency: document.getElementById('modalProficiency').value
+        language: sanitizeInput(document.getElementById('modalLanguage').value),
+        proficiency: sanitizeInput(document.getElementById('modalProficiency').value)
     };
     saveLanguage(id, data);
     closeModal();
@@ -1252,10 +1257,10 @@ function renderSectionContent(tabName) {
                 cvData.education.forEach(edu => {
                     html += `
                         <div class="item">
-                            <span class="item-date">${edu.startDate} – ${edu.endDate}</span>
-                            <div class="item-title">${edu.university || ''}</div>
-                            <div class="item-company">${edu.degree || ''} ${edu.field || ''}</div>
-                            ${edu.gpa ? `<div class="item-company">GPA: ${edu.gpa}</div>` : ''}
+                            <span class="item-date">${escapeHtml(edu.startDate)} – ${escapeHtml(edu.endDate)}</span>
+                            <div class="item-title">${escapeHtml(edu.university || '')}</div>
+                            <div class="item-company">${escapeHtml(edu.degree || '')} ${escapeHtml(edu.field || '')}</div>
+                            ${edu.gpa ? `<div class="item-company">GPA: ${escapeHtml(edu.gpa)}</div>` : ''}
                         </div>
                     `;
                 });
@@ -1268,9 +1273,9 @@ function renderSectionContent(tabName) {
                 cvData.experience.forEach(exp => {
                     html += `
                         <div class="item">
-                            <span class="item-date">${exp.startDate} - ${exp.endDate}</span>
-                            <div class="item-title">${exp.position || ''}</div>
-                            <div class="item-company">${exp.company || ''}</div>
+                            <span class="item-date">${escapeHtml(exp.startDate)} - ${escapeHtml(exp.endDate)}</span>
+                            <div class="item-title">${escapeHtml(exp.position || '')}</div>
+                            <div class="item-company">${escapeHtml(exp.company || '')}</div>
                     `;
                     if (exp.description) {
                         const bullets = exp.description.split('\n').filter(line => line.trim());
@@ -1281,7 +1286,7 @@ function renderSectionContent(tabName) {
                                 if (cleanBullet.startsWith('•')) {
                                     cleanBullet = cleanBullet.substring(1).trim();
                                 }
-                                html += `<li>${cleanBullet}</li>`;
+                                html += `<li>${escapeHtml(cleanBullet)}</li>`;
                             });
                             html += '</ul>';
                         }
@@ -1297,9 +1302,9 @@ function renderSectionContent(tabName) {
                 cvData.training.forEach(train => {
                     html += `
                         <div class="item">
-                            <span class="item-date">${train.startDate} – ${train.endDate}</span>
-                            <div class="item-title">${train.title || ''}</div>
-                            <div class="item-company">${train.institution || ''}</div>
+                            <span class="item-date">${escapeHtml(train.startDate)} – ${escapeHtml(train.endDate)}</span>
+                            <div class="item-title">${escapeHtml(train.title || '')}</div>
+                            <div class="item-company">${escapeHtml(train.institution || '')}</div>
                     `;
                     if (train.description) {
                         const bullets = train.description.split('\n').filter(line => line.trim());
@@ -1310,7 +1315,7 @@ function renderSectionContent(tabName) {
                                 if (cleanBullet.startsWith('•')) {
                                     cleanBullet = cleanBullet.substring(1).trim();
                                 }
-                                html += `<li>${cleanBullet}</li>`;
+                                html += `<li>${escapeHtml(cleanBullet)}</li>`;
                             });
                             html += '</ul>';
                         }
@@ -1326,9 +1331,9 @@ function renderSectionContent(tabName) {
                 cvData.certificates.forEach(cert => {
                     html += `
                         <div class="item">
-                            <span class="item-date">${cert.issueDate}${cert.expiryDate ? ' - ' + cert.expiryDate : ''}</span>
-                            <div class="item-title">${cert.title || ''}</div>
-                            <div class="item-company">${cert.issuer || ''}</div>
+                            <span class="item-date">${escapeHtml(cert.issueDate)}${cert.expiryDate ? ' - ' + escapeHtml(cert.expiryDate) : ''}</span>
+                            <div class="item-title">${escapeHtml(cert.title || '')}</div>
+                            <div class="item-company">${escapeHtml(cert.issuer || '')}</div>
                         </div>
                     `;
                 });
@@ -1341,8 +1346,8 @@ function renderSectionContent(tabName) {
                 cvData.projects.forEach(proj => {
                     html += `
                         <div class="item">
-                            <div class="item-title">${proj.title || ''}</div>
-                            <div class="item-company">${proj.technologies || ''}</div>
+                            <div class="item-title">${escapeHtml(proj.title || '')}</div>
+                            <div class="item-company">${escapeHtml(proj.technologies || '')}</div>
                     `;
                     if (proj.description) {
                         const bullets = proj.description.split('\n').filter(line => line.trim());
@@ -1353,7 +1358,7 @@ function renderSectionContent(tabName) {
                                 if (cleanBullet.startsWith('•')) {
                                     cleanBullet = cleanBullet.substring(1).trim();
                                 }
-                                html += `<li>${cleanBullet}</li>`;
+                                html += `<li>${escapeHtml(cleanBullet)}</li>`;
                             });
                             html += '</ul>';
                         }
@@ -1368,7 +1373,7 @@ function renderSectionContent(tabName) {
                 html += '<h2>Keahlian</h2>';
                 html += '<ul>';
                 cvData.skills.forEach(skill => {
-                    html += `<li>${skill.skillName || ''}</li>`;
+                    html += `<li>${escapeHtml(skill.skillName || '')}</li>`;
                 });
                 html += '</ul>';
             }
@@ -1380,9 +1385,9 @@ function renderSectionContent(tabName) {
                 cvData.volunteer.forEach(vol => {
                     html += `
                         <div class="item">
-                            <span class="item-date">${vol.startDate} – ${vol.endDate}</span>
-                            <div class="item-title">${vol.position || ''}</div>
-                            <div class="item-company">${vol.organization || ''}</div>
+                            <span class="item-date">${escapeHtml(vol.startDate)} – ${escapeHtml(vol.endDate)}</span>
+                            <div class="item-title">${escapeHtml(vol.position || '')}</div>
+                            <div class="item-company">${escapeHtml(vol.organization || '')}</div>
                     `;
                     if (vol.description) {
                         const bullets = vol.description.split('\n').filter(line => line.trim());
@@ -1393,7 +1398,7 @@ function renderSectionContent(tabName) {
                                 if (cleanBullet.startsWith('•')) {
                                     cleanBullet = cleanBullet.substring(1).trim();
                                 }
-                                html += `<li>${cleanBullet}</li>`;
+                                html += `<li>${escapeHtml(cleanBullet)}</li>`;
                             });
                             html += '</ul>';
                         }
@@ -1409,7 +1414,7 @@ function renderSectionContent(tabName) {
                 cvData.languages.forEach(lang => {
                     html += `
                         <div class="item">
-                            <div class="item-title">${lang.language || ''} – ${lang.proficiency || ''}</div>
+                            <div class="item-title">${escapeHtml(lang.language || '')} – ${escapeHtml(lang.proficiency || '')}</div>
                         </div>
                     `;
                 });
@@ -1424,19 +1429,19 @@ function updatePreview() {
     const preview = document.getElementById('cvPreview');
     
     let html = `
-        <h1>${cvData.personal.fullName || 'Nama Anda'}</h1>
+        <h1>${escapeHtml(cvData.personal.fullName || 'Nama Anda')}</h1>
         <div class="preview-contact">
-            ${cvData.personal.location ? cvData.personal.location : ''}
-            ${cvData.personal.phone ? '| ' + cvData.personal.phone : ''}
-            ${cvData.personal.email ? '| ' + cvData.personal.email : ''}
-            ${cvData.personal.linkedinUsername ? '| LinkedIn: <a href="' + (cvData.personal.linkedinUrl || '#') + '" style="color: #0066cc; text-decoration: none; cursor: pointer;" target="_blank">' + cvData.personal.linkedinUsername + '</a>' : ''}
+            ${cvData.personal.location ? escapeHtml(cvData.personal.location) : ''}
+            ${cvData.personal.phone ? '| ' + escapeHtml(cvData.personal.phone) : ''}
+            ${cvData.personal.email ? '| ' + escapeHtml(cvData.personal.email) : ''}
+            ${cvData.personal.linkedinUsername ? '| LinkedIn: <a href="' + sanitizeUrl(cvData.personal.linkedinUrl || '#') + '" style="color: #0066cc; text-decoration: none; cursor: pointer;" target="_blank">' + escapeHtml(cvData.personal.linkedinUsername) + '</a>' : ''}
         </div>
     `;
 
     if (cvData.personal.summary) {
         html += `
             <div style="margin: 10px 0; font-size: 0.75rem; color: #64748b;">
-                ${cvData.personal.summary}
+                ${escapeHtml(cvData.personal.summary)}
             </div>
         `;
     }
@@ -1553,6 +1558,53 @@ function initPreviewResize() {
         document.body.style.cursor = 'default';
         document.body.style.userSelect = 'auto';
     });
+}
+
+// SECURITY: HTML Escaping to prevent XSS attacks
+function escapeHtml(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// SECURITY: Input Validation
+function sanitizeInput(input, type = 'text') {
+    if (!input) return '';
+    
+    let sanitized = String(input).trim();
+    
+    // Remove potential command injection patterns
+    sanitized = sanitized.replace(/[;&|`$(){}[\]\\<>]/g, '');
+    
+    // Remove HTML tags for text fields
+    if (type === 'text') {
+        sanitized = sanitized.replace(/<[^>]*>/g, '');
+    }
+    
+    // Limit length
+    if (sanitized.length > 500 && type === 'text') {
+        sanitized = sanitized.substring(0, 500);
+    }
+    
+    return sanitized;
+}
+
+// SECURITY: URL Validation
+function sanitizeUrl(url) {
+    if (!url) return '#';
+    
+    try {
+        const urlObj = new URL(url);
+        // Only allow http, https, and mailto
+        if (['http:', 'https:', 'mailto:'].includes(urlObj.protocol)) {
+            return url;
+        }
+    } catch (e) {
+        // Invalid URL
+    }
+    
+    return '#';
 }
 
 // Capitalize helper
